@@ -57,6 +57,7 @@ export const useAuth = () => {
     setItem("responseHeaders", "");
     setItem("channels", "");
     setLoginState("");
+    localStorage.clear()
     navigate("/Home/Login");
   };
 

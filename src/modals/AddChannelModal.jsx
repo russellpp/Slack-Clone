@@ -52,6 +52,7 @@ const ModalFooter = styled.div`
   display: flex;
   padding: 10px 20px 20px;
   & > button {
+    color: var(--white);
     height: 30px;
     font-size: 15px;
     font-family: "ProximaNovaReg";

@@ -132,7 +132,9 @@ function SideBar() {
   const { setIsAddingChannel, channelList } = useContext(AuthContext);
 
   const handleOpenChannelModal = () => {
-    setIsAddingChannel(true);
+    if (channelList.length === 0) {
+      setIsAddingChannel(true);
+    }
   };
 
   const handleNavigate = (id) => {
@@ -172,7 +174,7 @@ function SideBar() {
             <span>Add Channel</span>
           </ListItem>
           {isChannelsOpen &&
-            channelList.map((item, index) => (
+            channelList?.map((item, index) => (
               <ListItem key={index} onClick={() => handleNavigate(item.id)}>
                 <img src={hashtagIcon} />
                 <span>{item.name}</span>
