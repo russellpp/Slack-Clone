@@ -132,9 +132,7 @@ function SideBar() {
   const { setIsAddingChannel, channelList } = useContext(AuthContext);
 
   const handleOpenChannelModal = () => {
-    if (channelList.length === 0) {
-      setIsAddingChannel(true);
-    }
+    setIsAddingChannel(true);
   };
 
   const handleNavigate = (id) => {
