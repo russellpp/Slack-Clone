@@ -6,12 +6,10 @@ import styled from "styled-components";
 import slackLogo from "../assets/icon.png";
 import { Link, Navigate } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
-import axios from "../utils/axios";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
-const LOGIN_URL = "/api/v1/auth/sign_in";
 
 const Container = styled.div`
   display: flex;
@@ -44,6 +42,7 @@ const TextInput = styled.input`
   font-size: 15px;
   box-sizing: border-box;
   outline: none;
+  color: var(--white);
 `;
 
 const HomeButton = styled.button`
@@ -97,27 +96,21 @@ const SignupText = styled.div`
   }
 `;
 
-const Err = styled.span`
-  color: red;
-`;
-
 function Login() {
-  const navigate = useNavigate()
-  const { setAuth, setResHeader, resHeader, setUser, setIsLoggedIn, loginState, setLoginState } =
-    useContext(AuthContext);
-  const { getItem, setItem } = useLocalStorage();
-  const {login} = useAuth()
+  const navigate = useNavigate();
+  const { loginState } = useContext(AuthContext);
+  const { getItem } = useLocalStorage();
+  const { login } = useAuth();
   const [loginDetails, setLoginDetails] = useState({ email: "", password: "" });
- 
 
   useEffect(() => {
     if (JSON.parse(getItem("loggedIn"))) {
-      navigate("/Home/ChangeUser")
+      navigate("/Home/ChangeUser");
     }
-  }, [])
+  }, []);
 
   const handleLogin = async () => {
-    login(loginDetails)
+    login(loginDetails);
   };
 
   return (
@@ -143,7 +136,6 @@ function Login() {
         }
       ></TextInput>
       <HomeButton onClick={handleLogin}>Login</HomeButton>
-      {loginState === "error" && <Err>ERROR</Err>}
       <SignupText>
         <span>Don't have an account?</span>
         <Link to="/Home/Signup">Register</Link>
@@ -154,4 +146,12 @@ function Login() {
 }
 
 export default Login;
-export { Container, SlackLogo, TextInput, Icon, HomeButton, SlackTitle, SignupText };
+export {
+  Container,
+  SlackLogo,
+  TextInput,
+  Icon,
+  HomeButton,
+  SlackTitle,
+  SignupText,
+};

@@ -5,7 +5,7 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({});
   const [user, setUser] = useState("");
-  const [recipient, setRecipient] = useState(undefined);
+  const [recipient, setRecipient] = useState(null);
   const [receiverClass, setReceiverClass] = useState("user");
   const [emailList, setEmailList] = useState([]);
   const [message, setMessage] = useState("");
@@ -28,9 +28,11 @@ export const AuthProvider = ({ children }) => {
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [isAddingMembers, setIsAddingMembers] = useState(false);
   const [loginState, setLoginState] = useState(null);
-
+  const [urlID, setUrlID] = useState("");
 
   const value = {
+    urlID,
+    setUrlID,
     isLoggedIn,
     setIsLoggedIn,
     isRedirecting,
@@ -70,7 +72,7 @@ export const AuthProvider = ({ children }) => {
     isAddingMembers,
     setIsAddingMembers,
     loginState,
-    setLoginState
+    setLoginState,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

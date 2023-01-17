@@ -1,15 +1,11 @@
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
-import userEditIcon from "../assets/user-edit-solid.svg";
 import GlobalFonts from "../fonts/fonts";
 import caretDownicon from "../assets/caret-down-solid.svg";
 import caretUpicon from "../assets/caret-up-solid.svg";
 import newMsgIcon from "../assets/pen-to-square-regular.svg";
 import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
-import AddChannel from "../modals/AddChannelModal";
-import AddChannelModal from "../modals/AddChannelModal";
-import { redirect } from "react-router-dom";
 import plusIcon from "../assets/plus-solid.svg";
 import hashtagIcon from "../assets/hashtag-solid.svg";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +17,21 @@ const SidebarContainer = styled.div`
   height: calc(100vh - 50px);
   display: flex;
   flex-direction: column;
+  & > a {
+    color: var(--white);
+    &:link {
+      text-decoration: none;
+    }
+    &:visited {
+      text-decoration: none;
+    }
+    &:hover {
+      text-decoration: none;
+    }
+    &:active {
+      text-decoration: none;
+    }
+  }
 `;
 
 const UserInfo = styled.div`
@@ -34,28 +45,15 @@ const UserInfo = styled.div`
     "a c"
     "b c";
   grid-template-rows: 30px 30px;
-  & > h3 {
+  & > h4 {
     font-size: 15px;
+    color: #b6b0b0;
     grid-area: b;
   }
   & > h2 {
     grid-area: a;
     font-family: "HellixBold";
     font-size: 18px;
-  }
-`;
-
-const EditIcon = styled.img`
-  height: 20px;
-  justify-self: center;
-  margin-top: 12px;
-
-  filter: invert(70%);
-  grid-area: c;
-  transition: 0.1s ease;
-  &:hover {
-    cursor: pointer;
-    filter: invert(95%);
   }
 `;
 
@@ -87,7 +85,7 @@ const List = styled.div`
     list-style: none;
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: calc(100vh - 180px);
+    max-height: calc(100vh - 225px);
     padding: 0;
     & > li {
       padding: 10px 0 10px 35px;
@@ -115,11 +113,23 @@ const ListItem = styled.li`
   }
 `;
 
+const EditIcon = styled.img`
+  position: relative;
+  height: 20px !important;
+  right: -60px;
+  top: 3px;
+  filter: invert(70%);
+  grid-area: c;
+  transition: 0.1s ease;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 function SideBar() {
   const navigate = useNavigate();
   const [isChannelsOpen, setIsChannelsOpen] = useState();
-  const { isAddingChannel, setIsAddingChannel, channelList } =
-    useContext(AuthContext);
+  const { setIsAddingChannel, channelList } = useContext(AuthContext);
 
   const handleOpenChannelModal = () => {
     setIsAddingChannel(true);
@@ -141,12 +151,16 @@ function SideBar() {
     <SidebarContainer>
       <GlobalFonts />
       <UserInfo>
-        <h2>WORKSPACE</h2>
-        <h3>email address</h3>
-        <Link to="/Dashboard/Message/new">
-          <EditIcon src={newMsgIcon} alt="edit-icon" />
-        </Link>
+        <h2>FLAKK WORKSPACE</h2>
+        <h4>an avion school project</h4>
       </UserInfo>
+      <Link to="/Dashboard/Message/new">
+        <Title>
+          <span>New Message</span>
+          <EditIcon src={newMsgIcon} alt="edit-icon" />
+        </Title>
+      </Link>
+      {/*  */}
       <Title onClick={handleOpen}>
         <img src={isChannelsOpen ? caretUpicon : caretDownicon} />
         <span>Channels</span>
@@ -158,8 +172,8 @@ function SideBar() {
             <span>Add Channel</span>
           </ListItem>
           {isChannelsOpen &&
-            channelList.map((item) => (
-              <ListItem onClick={() => handleNavigate(item.id)}>
+            channelList.map((item, index) => (
+              <ListItem key={index} onClick={() => handleNavigate(item.id)}>
                 <img src={hashtagIcon} />
                 <span>{item.name}</span>
               </ListItem>

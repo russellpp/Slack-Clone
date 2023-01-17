@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import ChatScreen from "../components/ChatScreen";
 import Header from "../components/Header";
@@ -24,18 +23,26 @@ const Body = styled.div`
 `;
 
 function Dashboard() {
-  const { isAddingMembers, setIsAddingMembers, sendStatus, setChannelList, isAddingChannel, setIsAddingChannel, resHeader, setResHeader, user, setUser, setEmailList, auth, setAuth } = useContext(AuthContext);
+  const {
+    isAddingMembers,
+    sendStatus,
+    setChannelList,
+    isAddingChannel,
+    resHeader,
+    setResHeader,
+    user,
+    setUser,
+    setEmailList,
+    auth,
+    setAuth,
+  } = useContext(AuthContext);
   const { getItem, setItem } = useLocalStorage();
-  const [authenticated, setAuthenthication] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(false);
-  
 
-  
   useEffect(() => {
     if (getItem("loggedIn")) {
       setUser(getItem("user"));
       setResHeader(JSON.parse(getItem("responseHeader")));
-      setAuth(JSON.parse(getItem("auth")))
+      setAuth(JSON.parse(getItem("auth")));
     } else {
       setItem("responseHeader", JSON.stringify(resHeader));
       setItem("auth", JSON.stringify(auth));
@@ -43,18 +50,18 @@ function Dashboard() {
       setItem("user", user);
     }
   }, []);
-  
+
   const getUsersData = async () => {
     const headers = JSON.parse(getItem("responseHeader"));
 
     try {
       const res = await axios.get(USERS_URL, { headers });
       setItem("users", JSON.stringify(res.data));
-      setEmailList(res.data.data)
+      setEmailList(res.data.data);
     } catch (err) {
       if (!err?.res) {
         console.log("No server response");
-        console.log(err)
+        console.log(err);
       } else {
         console.log(err);
       }
@@ -67,11 +74,11 @@ function Dashboard() {
     try {
       const res = await axios.get(CHANNELS_URL, { headers });
       setItem("channels", JSON.stringify(res.data));
-      setChannelList(res.data.data)
+      setChannelList(res.data.data);
     } catch (err) {
       if (!err?.res) {
         console.log("No server response");
-        console.log(err)
+        console.log(err);
       } else {
         console.log(err);
       }

@@ -2,11 +2,8 @@ import React, { useContext, useEffect } from "react";
 import {
   Container,
   HomeButton,
-  Icon,
   SlackLogo,
-  TextInput,
   SlackTitle,
-  SignupText,
 } from "./Login";
 import GlobalFonts from "../fonts/fonts";
 import styled from "styled-components";
@@ -52,16 +49,10 @@ const BodyText = styled.div`
 `;
 
 export default function ChangeUser() {
-  const { setItem, getItem } = useLocalStorage();
+  const { getItem } = useLocalStorage();
   const {
     resHeader,
-    setResHeader,
-    setAuth,
-    auth,
-    isLoggedIn,
-    setIsLoggedIn,
-    user,
-    setUser,
+    setResHeader
   } = useContext(AuthContext);
   const {logout} = useAuth()
 

@@ -45,7 +45,7 @@ const ModalBody = styled.div`
   align-items: flex-start;
   & > div > label {
     font-family: "HellixBold";
-    font-size: 15px;
+    font-size: 18px;
   }
 `;
 const ModalFooter = styled.div`
@@ -151,8 +151,6 @@ function AddChannelModal() {
     user,
     createChannelName,
     setCreateChannelName,
-    setIsNewMessage,
-    isAddingChannel,
     setIsAddingChannel,
     isAddingMembers
   } = useContext(AuthContext);

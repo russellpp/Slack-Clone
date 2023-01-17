@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import AuthContext from "../context/AuthProvider";
-import { useLocalStorage } from "../hooks/useLocalStorage";
 import ChatBox from "./ChatBox";
 import ChatInput from "./ChatInput";
 
@@ -56,32 +55,38 @@ const DropDown = styled.div`
     color: var(--teal);
     font-size: 24px;
     cursor: pointer;
-    &:hover{
-        background-color: var(--teal);
-        color: white;
+    &:hover {
+      background-color: var(--teal);
+      color: white;
     }
   }
 `;
 
 function NewMessage() {
-
   const [searchValue, setSearchValue] = useState("");
-  const { setIsNewMessage, emailList, setEmailList, recipient, setRecipient, receiverClass, setReceiverClass } = useContext(AuthContext);
-  
+  const {
+    setIsNewMessage,
+    emailList,
+    setEmailList,
+    setRecipient,
+    setReceiverClass,
+  } = useContext(AuthContext);
 
   useEffect(() => {
-    setEmailList(JSON.parse(localStorage.getItem("users")).data);
+    if (emailList.length > 0) {
+      setEmailList(JSON.parse(localStorage.getItem("users")).data);
+    }
   }, []);
 
   const handleSearch = (e) => {
     setSearchValue(e.target.value);
   };
 
-  useEffect(()=>{
-    setIsNewMessage(true)
+  useEffect(() => {
+    setIsNewMessage(true);
     setReceiverClass("User");
-    setRecipient(emailList.find((data) => (data.email === searchValue)))
-  },[searchValue])
+    setRecipient(emailList.find((data) => data.email === searchValue));
+  }, [searchValue]);
 
   return (
     <>
@@ -105,8 +110,10 @@ function NewMessage() {
                 email !== searchTerm
               );
             })
-            .map((item,index) => (
-              <li key={index} onClick={() => setSearchValue(item.email)}>{item.email}</li>
+            .map((item, index) => (
+              <li key={index} onClick={() => setSearchValue(item.email)}>
+                {item.email}
+              </li>
             ))}
         </DropDown>
       </MessageHeader>

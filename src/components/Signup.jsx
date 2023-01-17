@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import GlobalFonts from "../fonts/fonts";
-import { Container, HomeButton, Icon, SlackLogo, TextInput } from "./Login";
-import Cloud from "../assets/cloud.svg";
+import { Container, HomeButton, Icon, TextInput } from "./Login";
 import styled from "styled-components";
 import slacklogo from "../assets/icon.png";
 import EmailIcon from "../assets/envelope-solid.svg";
@@ -19,7 +18,6 @@ const Logo = styled.img`
   height: 150px;
   width: 150px;
   margin-bottom: 35px;
-  filter: grayscale(100%);
 `;
 const InputTitle = styled.span`
   position: relative;

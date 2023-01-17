@@ -2,11 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import sendIcon from "../assets/paper-plane-solid.svg";
 import AuthContext from "../context/AuthProvider";
-import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useHandle } from "../hooks/useHandle";
-import { redirect } from "react-router-dom";
-
-const SEND_URL = "/api/v1/messages";
 
 const ChatInputContainer = styled.div`
   border-top: 0.5px solid gray;
@@ -55,7 +51,7 @@ const Icon = styled.img`
 
 function ChatInput() {
   const { handleSend } = useHandle();
-  const { setMessage, sendStatus, targetURL } = useContext(AuthContext);
+  const { setMessage, receiverClass } = useContext(AuthContext);
   const [msg, setMsg] = useState();
 
   const handleChange = (e) => {
@@ -72,7 +68,7 @@ function ChatInput() {
         <MessageInput
           onChange={handleChange}
           type="text"
-          placeholder="Message user here..."
+          placeholder={`Message ${receiverClass} Here...`}
         ></MessageInput>
         <Icon src={sendIcon} alt="send-icon" onClick={handleSend} />
       </ChatWrapper>

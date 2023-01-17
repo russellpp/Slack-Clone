@@ -1,6 +1,5 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
-import ChatInput from "./ChatInput";
 import { Navigate, Route, Routes } from "react-router-dom";
 import ChatBody from "./ChatBody";
 import NewMessage from "./NewMessage";
@@ -18,14 +17,7 @@ const ChatScreenContainer = styled.div`
 `;
 
 function ChatScreen() {
-  const {
-    isRedirecting,
-    setIsRedirecting,
-    sendStatus,
-    isNewMessage,
-    setSendStatus,
-    targetURL,
-  } = useContext(AuthContext);
+  const { isRedirecting, targetURL } = useContext(AuthContext);
 
   return (
     <ChatScreenContainer>

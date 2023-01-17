@@ -1,46 +1,31 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import AuthContext from "../context/AuthProvider";
 import { useLocalStorage } from "./useLocalStorage";
 import axios from "../utils/axios";
-import { json, Navigate, NavLink, redirect } from "react-router-dom";
 
 const SEND_URL = "/api/v1/messages";
-const CREATECHANNEL_URL = "/api/v1/channels";
 
 export const useHandle = () => {
   const {
     recipient,
-    setRecipient,
     resHeader,
-    setResHeader,
     message,
-    setMessage,
     receiverClass,
     setReceiverClass,
-    sendStatus,
     setSendStatus,
-    targetURL,
     setTargetURL,
-    recMessages,
     setRecMessages,
     addMembersList,
-    setAddMembersList,
     createChannelName,
-    setCreateChannelName,
-    channelList,
-    setChannelList,
-    isAddingChannel,
     setIsAddingChannel,
-    currentChannel,
     setCurrentChannel,
     isNewMessage,
     setIsNewMessage,
-    isRedirecting,
     setIsRedirecting,
     setIsAddingMembers,
+    urlID,
   } = useContext(AuthContext);
   const { getItem, setItem } = useLocalStorage();
-  const [inbox, setInbox] = useState();
 
   const params = {
     receiver_id: recipient?.id,
@@ -63,10 +48,9 @@ export const useHandle = () => {
         setSendStatus(true);
       } catch (err) {
         if (!err?.res) {
-          console.log("No server response");
-          console.log(err);
+          alert("No server response. Message not sent.");
         } else {
-          console.log(err);
+          alert("Message not sent.");
         }
       }
     }
@@ -81,10 +65,9 @@ export const useHandle = () => {
       setRecMessages(res.data.data);
     } catch {
       if (!err?.res) {
-        console.log("No server response");
-        console.log(err);
+        alert("No server response. Cannot retrieve messages ");
       } else {
-        console.log(err);
+        alert("Cannot retrieve messages");
       }
     }
   };
@@ -113,16 +96,13 @@ export const useHandle = () => {
       if (!data.errors) {
         setReceiverClass("Channel");
         setTargetURL(`/Dashboard/Message/Channel/${data.data.id}`);
-        setCurrentChannel(data.data);
+
         setIsAddingChannel(false);
         setIsRedirecting(true);
       } else {
-        
-        alert(data.errors[0])
+        alert(data.errors[0]);
       }
-
-      }
-
+    }
 
     post();
 
@@ -189,26 +169,31 @@ export const useHandle = () => {
     }
   };
 
-  const handleGetChannelData = async () => {
+  const handleGetChannelData = () => {
     async function get() {
-      const response = await fetch(
-        `http://206.189.91.54/api/v1/channels/${recipient?.id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "access-token": resHeader["access-token"],
-            client: resHeader.client,
-            expiry: resHeader.expiry,
-            uid: resHeader.uid,
-          },
-          mode: "cors",
+      const rh = JSON.parse(getItem("responseHeader"));
+      if (rh.client !== "") {
+        const response = await fetch(
+          `http://206.189.91.54/api/v1/channels/${recipient?.id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "access-token": rh["access-token"],
+              client: rh.client,
+              expiry: rh.expiry,
+              uid: rh.uid,
+            },
+            mode: "cors",
+          }
+        );
+        const data = await response.json();
+        if (data.data) {
+          setCurrentChannel(data.data);
+          setItem("currentChannel", JSON.stringify(data.data));
         }
-      );
-      const data = await response.json();
-
-      setCurrentChannel(data.data);
+      }
     }
 
     get();

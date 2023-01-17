@@ -9,46 +9,11 @@ import axios from "../utils/axios";
 const LOGIN_URL = "/api/v1/auth/sign_in";
 
 export const useAuth = () => {
-  const {
-    recipient,
-    setRecipient,
-    resHeader,
-    setResHeader,
-    setIsLoggedIn,
-    IsLoggedIn,
-    message,
-    setMessage,
-    receiverClass,
-    setReceiverClass,
-    sendStatus,
-    setSendStatus,
-    targetURL,
-    setTargetURL,
-    recMessages,
-    setRecMessages,
-    addMembersList,
-    setAddMembersList,
-    createChannelName,
-    setCreateChannelName,
-    channelList,
-    setChannelList,
-    isAddingChannel,
-    setIsAddingChannel,
-    currentChannel,
-    setCurrentChannel,
-    isNewMessage,
-    setIsNewMessage,
-    isRedirecting,
-    setIsRedirecting,
-    setIsAddingMembers,
-    auth,
-    setAuth,
-    loginState,
-    setLoginState,
-  } = useContext(AuthContext);
+  const { setResHeader, setIsLoggedIn, setAuth, setLoginState } =
+    useContext(AuthContext);
   const { user, addUser, removeUser } = useUser();
   const { getItem, setItem } = useLocalStorage();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = getItem("user");
@@ -58,7 +23,6 @@ export const useAuth = () => {
   }, []);
 
   const login = async (loginDetails) => {
-    console.log("trying to log in")
     try {
       const res = await axios.post(LOGIN_URL, loginDetails);
 
@@ -72,16 +36,13 @@ export const useAuth = () => {
       addUser(loginDetails.email);
       setLoginState("success");
       setIsLoggedIn(true);
-
       setAuth(res?.data.data);
-      navigate("/Dashboard")
+      navigate("/Dashboard");
     } catch (err) {
-      if (!err?.res) {
-        console.log("No server response");
-      } else if (err.res?.status === 400) {
-        console.log("Missing username and password");
+      if (!err?.response) {
+        alert("No server response");
       } else {
-        console.log("Login failed");
+        alert(err.response.data.errors[0]);
       }
       setLoginState("error");
       setIsLoggedIn(false);
@@ -90,13 +51,13 @@ export const useAuth = () => {
 
   const logout = () => {
     removeUser();
-    setItem("user", null)
+    setItem("user", null);
     setItem("auth", "{}");
     setItem("loggedIn", false);
     setItem("responseHeaders", "");
     setItem("channels", "");
-    setLoginState("")
-    navigate("/Home/Login")
+    setLoginState("");
+    navigate("/Home/Login");
   };
 
   return { user, login, logout };

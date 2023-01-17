@@ -5,7 +5,6 @@ import GlobalFonts from "../fonts/fonts";
 import logoutIcon from "../assets/right-from-bracket-solid.svg";
 import AuthContext from "../context/AuthProvider";
 import searchIcon from "../assets/magnifying-glass-solid.svg";
-
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
@@ -25,7 +24,7 @@ const DropDown = styled.div`
   position: relative;
   background-color: var(--white);
   z-index: 3;
-  top:35px;
+  top: 35px;
   left: -300px;
   min-width: 280px;
   max-width: 280px;
@@ -110,15 +109,11 @@ function Header() {
   const handleSearch = (e) => {
     setSearchValue(e.target.value);
   };
-  const {
-    emailList,
-    resHeader,
-  } = useContext(AuthContext);
+  const { emailList, resHeader } = useContext(AuthContext);
 
   const handleLogout = async () => {
     logout();
   };
-  const handleSelect = () => {};
 
   const handleNavigate = () => {
     const target = emailList.find((item) => item.uid === searchValue);
@@ -140,22 +135,24 @@ function Header() {
           value={searchValue}
           placeholder="Search users..."
         />
-      <DropDown>
-        {emailList
-          .filter((item) => {
-            const searchTerm = searchValue.toLowerCase();
-            const email = item.email.toLowerCase();
+        <DropDown>
+          {emailList
+            .filter((item) => {
+              const searchTerm = searchValue.toLowerCase();
+              const email = item.email.toLowerCase();
 
-            return (
-              searchTerm && email.startsWith(searchTerm) && email !== searchTerm
-            );
-          })
-          .map((item, index) => (
-            <li key={index} onClick={() => setSearchValue(item.email)}>
-              {item.email}
-            </li>
-          ))}
-      </DropDown>
+              return (
+                searchTerm &&
+                email.startsWith(searchTerm) &&
+                email !== searchTerm
+              );
+            })
+            .map((item, index) => (
+              <li key={index} onClick={() => setSearchValue(item.email)}>
+                {item.email}
+              </li>
+            ))}
+        </DropDown>
       </SearchBar>
       <HeaderRight>
         <Icon src={logoutIcon} alt="logout-icon" onClick={handleLogout} />

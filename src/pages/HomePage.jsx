@@ -2,8 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
-import { ReactDOM } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import ChangeUser from "../components/ChangeUser";
 
 const PageWrapper = styled.div`
@@ -38,9 +37,6 @@ const ClipSvg = styled.svg`
 `;
 
 function HomePage() {
-
-  
-
   return (
     <PageWrapper>
       <ClipSvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">

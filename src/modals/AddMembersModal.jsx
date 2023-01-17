@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import {
   ModalBody,
@@ -20,13 +20,13 @@ function AddMembersModal() {
     emailList,
     addMembersList,
     setAddMembersList,
-    createChannelName,
-    setCreateChannelName,
-    setIsNewMessage,
-    isAddingMembers,
     setIsAddingMembers,
     recipient,
   } = useContext(AuthContext);
+
+  useEffect(() => {
+    setAddMembersList([]);
+  }, []);
 
   const handleSearch = (e) => {
     setSearchValue(e.target.value);
@@ -98,7 +98,7 @@ function AddMembersModal() {
           </MembersList>
         </ModalBody>
         <ModalFooter>
-          <button onClick={handleAddMembers}>Add Members</button>
+          <button onClick={handleAddMembers}>Add Member</button>
           <button onClick={handleCloseModal}>Cancel</button>
         </ModalFooter>
       </ModalContainer>
